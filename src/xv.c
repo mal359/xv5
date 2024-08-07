@@ -2596,17 +2596,11 @@ ms_auto_no:
       i = TextView(origname);
     else
 #endif
-        /* JET - no, just report on stderr and move on */
-#if 0
-        i = TextView(filename);
+      i = TextView(filename);
     SetISTR(ISTR_INFO,"'%s' not in a recognized format.", basefname);
     /* Warning();  */
     if (i) goto SHOWN_AS_TEXT;
     else   goto FAILED;
-#else
-    fprintf(stderr, "'%s' not in a recognized format.\n", basefname);
-    goto FAILED;
-#endif /* 0 */
   }
 
   if (filetype < RFT_ERROR) {
