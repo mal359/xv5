@@ -52,7 +52,7 @@ static const char *icongeom = NULL;
 static Atom   __SWM_VROOT = None;
 static int dpiMultSet = 0;
 
-static char   basefname[NAME_MAX+1];   /* just the current fname, no path */
+static char   basefname[MAXNAMELEN+1];   /* just the current fname, no path */
 
 #ifdef TV_L10N
 #  ifndef TV_FONTSET
@@ -2191,7 +2191,7 @@ static int openPic(int filenum)
   int   oldCXOFF, oldCYOFF, oldCWIDE, oldCHIGH, wascropped;
   char *tmp;
   char *fullname,       /* full name of the original file */
-        filename[MAXPATHLEN];	/* full name of file to load (could be /tmp/xxx)*/
+        filename[MAXPATHLEN+1];	/* full name of file to load (could be /tmp/xxx)*/
 #ifdef MACBINARY
   char origname[MAXPATHLEN];	/* file name of original file (NO processing) */
   origname[0] = '\0';
@@ -2234,7 +2234,7 @@ static int openPic(int filenum)
       return 0;
     }
 
-    sprintf(filename, "%s%d", pageBaseName, curPage+1);
+    snprintf(filename, sizeof(filename)-1, "%s%d", pageBaseName, curPage+1);
     fullname = filename;
     goto HAVE_FILENAME;
   }
@@ -2279,9 +2279,9 @@ static int openPic(int filenum)
     if (!i) goto FAILED;   /* shouldn't happen */
 
     fullname = fullfname;
-    strcpy(filename, fullfname);
-    if (strlen(BaseName(fullfname)) > NAME_MAX) goto FAILED;
-    strcpy(basefname, BaseName(fullfname));
+    strncpy(filename, fullfname, sizeof(filename)-1);
+    if (strlen(BaseName(fullfname)) > MAXNAMELEN) goto FAILED;
+    strncpy(basefname, BaseName(fullfname), sizeof(basefname)-1);
 
 
     if (killpage) {      /* kill old page files, if any */
@@ -2324,7 +2324,7 @@ static int openPic(int filenum)
     fullname = GetDirFullName();
 
     if (ISPIPE(fullname[0])) {    /* read from a pipe. */
-      strcpy(filename, fullname);
+      strncpy(filename, fullname, sizeof(filename)-1);
       if (readpipe(fullname, filename)) goto FAILED;
       frompipe = 1;
     }
@@ -2346,10 +2346,9 @@ static int openPic(int filenum)
   else fullname = namelist[filenum];
 #endif
 
-  strcpy(fullfname, fullname);
-  if (strlen(BaseName(fullfname)) > NAME_MAX) goto FAILED;
-  strcpy(basefname, BaseName(fullname));
-
+  strncpy(fullfname, fullname, sizeof(fullfname)-1);
+  if (strlen(BaseName(fullfname)) > MAXNAMELEN) goto FAILED;
+  strncpy(basefname, BaseName(fullname), sizeof(basefname)-1);
 
   /* chop off trailing ".Z", ".z", or ".gz" from displayed basefname, if any */
   if (strlen(basefname)>2 && strcmp(basefname+strlen(basefname)-2,".Z")==0)
@@ -2449,7 +2448,7 @@ static int openPic(int filenum)
       }
     }
 
-    strcpy(filename, fullname);
+    strncpy(filename, fullname, sizeof(filename)-1);
 
 
     /* if the file is STDIN, write it out to a temp file */
@@ -2461,7 +2460,7 @@ static int openPic(int filenum)
 #endif
 
 #ifndef VMS
-      sprintf(filename,"%s/xvXXXXXX",tmpdir);
+      snprintf(filename, sizeof(filename)-1, "%s/xvXXXXXX", tmpdir);
 #else /* it is VMS */
       sprintf(filename, "[]xvXXXXXX");
 #endif
@@ -2519,7 +2518,7 @@ static int openPic(int filenum)
       /* if we made a /tmp file (from stdin, etc.) won't need it any more */
       if (strcmp(fullname,filename)!=0) unlink(filename);
 
-      strcpy(filename, tmpname);
+      strncpy(filename, tmpname, sizeof(filename)-1);
     }
     else filetype = RFT_ERROR;
 
@@ -2573,14 +2572,14 @@ static int openPic(int filenum)
 
       filetype = ReadFileType(tmpname);
       if (strcmp(fullname,filename)!=0) unlink(filename);
-      strcpy(filename, tmpname);
+      strncpy(filename, tmpname, sizeof(filename)-1);
   }
 ms_auto_no:
 #endif /* HAVE_MGCSFX_AUTO */
 
   if (filetype == RFT_ERROR) {
-    char  foostr[MAXPATHLEN + 512];
-    snprintf(foostr, sizeof(foostr), "Can't open file '%s'\n\n  %s.", filename, ERRSTR(errno));
+    char  foostr[512+MAXPATHLEN+1];
+    snprintf(foostr, sizeof(foostr)-1, "Can't open file '%s'\n\n  %s.",filename, ERRSTR(errno));
 
     if (!polling) ErrPopUp(foostr, "\nBummer!");
 

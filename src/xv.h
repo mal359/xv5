@@ -118,6 +118,9 @@
 #  ifndef _LINUX_LIMITS_H
 #    include <linux/limits.h>
 #  endif
+#  ifndef _LIBC_LIMITS_H_
+#    include <limits.h>
+#  endif
 #  ifndef USLEEP
 #    define USLEEP
 #  endif
@@ -376,7 +379,19 @@
 #endif
 
 #ifndef MAXPATHLEN
-#  define MAXPATHLEN 256
+#  ifdef PATH_MAX
+#    define MAXPATHLEN PATH_MAX
+#  else
+#    define MAXPATHLEN 512
+#  endif
+#endif
+
+#ifndef MAXNAMELEN
+#  ifdef NAME_MAX
+#    define MAXNAMELEN NAME_MAX
+#  else
+#    define MAXNAMELEN 128
+#  endif
 #endif
 
 #define XV_MAXQUOTEDPATHLEN	(3 * MAXPATHLEN + 10)

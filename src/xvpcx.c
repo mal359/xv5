@@ -245,7 +245,8 @@ static int pcxLoadImage8(const char *fname, FILE *fp, PICINFO *pinfo, byte *hdr)
 static int pcxLoadImage24(const char *fname, FILE *fp, PICINFO *pinfo, byte *hdr)
 {
   byte *pix, *pic24, scale[256];
-  int   c, i, j, w, h, maxv, cnt, planes, bperlin, nbytes, count;
+  int   c, i, j, w, h, maxv, cnt, planes, bperlin;
+  long  nbytes, count;
 
   w = pinfo->w;  h = pinfo->h;
 

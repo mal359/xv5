@@ -5,6 +5,7 @@
  * WritePBM(fp,pic,ptype,w,h,r,g,b,numcols,style,raw,cmt,comment)
  */
 
+#include <stdint.h>
 #include "copyright.h"
 
 #include "xv.h"
@@ -229,12 +230,17 @@ static int loadpbm(FILE *fp, PICINFO *pinfo, int raw)
   byte *pic8;
   byte *pix;
   int   i,j,bit,w,h,npixels;
+  uint64_t pixchk;
 
   w = pinfo->w;
   h = pinfo->h;
 
   npixels = w * h;
-  if (w <= 0 || h <= 0 || npixels/w != h)
+
+  pixchk = (uint64_t)w;
+  pixchk *= (uint64_t)h;
+
+  if (w <= 0 || h <= 0 || (uint64_t)npixels != pixchk)
     return pbmError(bname, "image dimensions too large");
 
   pic8 = (byte *) calloc((size_t) npixels, (size_t) 1);
@@ -297,13 +303,17 @@ static int loadpgm(FILE *fp, PICINFO *pinfo, int raw, int maxv)
 {
   byte *pix, *pic8;
   int   i,j,bitshift,w,h,npixels, holdmaxv;
-
+  uint64_t pixchk;
 
   w = pinfo->w;
   h = pinfo->h;
 
   npixels = w * h;
-  if (w <= 0 || h <= 0 || npixels/w != h)
+
+  pixchk = (uint64_t)w;
+  pixchk *= (uint64_t)h;
+
+  if (w <= 0 || h <= 0 || (uint64_t)npixels != pixchk)
     return pbmError(bname, "image dimensions too large");
 
   pic8 = (byte *) calloc((size_t) npixels, (size_t) 1);
@@ -378,13 +388,20 @@ static int loadppm(FILE *fp, PICINFO *pinfo, int raw, int maxv)
 {
   byte *pix, *pic24, scale[256];
   int   i,j,bitshift, w, h, npixels, bufsize, holdmaxv;
+  uint64_t  bufchk, pixchk;
 
   w = pinfo->w;
   h = pinfo->h;
 
   npixels = w * h;
   bufsize = 3*npixels;
-  if (w <= 0 || h <= 0 || npixels/w != h || bufsize/3 != npixels)
+
+  pixchk = (uint64_t)w;
+  bufchk = (uint64_t)npixels;
+  pixchk *= (uint64_t)h;
+  bufchk *= 3ULL;
+
+  if (w <= 0 || h <= 0 || (uint64_t)npixels != pixchk || (uint64_t)bufsize != bufchk)
     return pbmError(bname, "image dimensions too large");
 
   /* allocate 24-bit image */
@@ -468,6 +485,7 @@ static int loadpam(FILE *fp, PICINFO *pinfo, int raw, int maxv)	/* unofficial RG
   byte *p, *pix, *pic24, *linebuf, scale[256], bgR, bgG, bgB, r, g, b, a;
   int   i, j, w, h, npixels, bufsize, linebufsize, holdmaxv;
   /* int bitshift; */
+  uint64_t  bufchk, pixchk, lnbchk;
 
   w = pinfo->w;
   h = pinfo->h;
@@ -475,8 +493,16 @@ static int loadpam(FILE *fp, PICINFO *pinfo, int raw, int maxv)	/* unofficial RG
   npixels = w * h;
   bufsize = 3*npixels;
   linebufsize = 4*w;
-  if (w <= 0 || h <= 0 || npixels/w != h || bufsize/3 != npixels ||
-      linebufsize/4 != w)
+
+  pixchk = (uint64_t)w;
+  bufchk = (uint64_t)npixels;
+  lnbchk = (uint64_t)w;
+  pixchk *= (uint64_t)h;
+  bufchk *= 3ULL;
+  lnbchk *= 4ULL;
+
+  if (w <= 0 || h <= 0 || (uint64_t)npixels != pixchk || (uint64_t)bufsize != bufchk ||
+      (uint64_t)linebufsize != lnbchk)
     return pbmError(bname, "image dimensions too large");
 
   /* allocate 24-bit image */
