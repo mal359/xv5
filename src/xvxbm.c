@@ -78,6 +78,11 @@ int LoadXBM(char *fname, PICINFO *pinfo)
 
 
 
+  /* scan forward until we see '= {' before bitmap array to skip filename */
+  c = getc(fp);
+  while (c!=EOF && c!='=') { c = getc(fp); }
+  while (c!=EOF && c!='{') { c = getc(fp); }
+
   /* scan forward until we see the first '0x' */
   c = getc(fp);  c1 = getc(fp);
   while (c1!=EOF && !(c=='0' && c1=='x') ) { c = c1;  c1 = getc(fp); }
