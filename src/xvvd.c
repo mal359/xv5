@@ -1159,6 +1159,8 @@ static void HUPhandler(XtPointer dummy, XtSignalId* Id)
     unblock_signal(SIGHUP, mask);
 }
 
+int InSignal = 0;
+
 static void vd_handler(int sig)
 {
     UsedSignal = sig;
@@ -1172,6 +1174,7 @@ static void INThandler(XtPointer dummy, XtSignalId* Id)
 
     block_signal(UsedSignal);
 
+    InSignal = 1;
     Quit(1); /*exit(1);*/
 }
 

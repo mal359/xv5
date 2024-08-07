@@ -492,6 +492,7 @@ void FatalError (const char *identifier)
 }
 
 
+extern int InSignal;
 /***********************************/
 void Quit(int i)
 {
@@ -588,6 +589,7 @@ void Quit(int i)
     }
   }
 
+  if (InSignal == 0)
   XSync(theDisp, False);
   exit(i);
 }
