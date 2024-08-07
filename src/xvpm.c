@@ -141,6 +141,8 @@ int LoadPM(char *fname, PICINFO *pinfo)
     return( pmError(bname, "file read error") );
   }
 
+  if (thePic.pm_cmtsize+1 <= 0)
+    return pmError(bname, "Bogus PM file!!");
 
   /* alloc and read in comment, if any */
   if (thePic.pm_cmtsize>0) {
@@ -160,6 +162,9 @@ int LoadPM(char *fname, PICINFO *pinfo)
   if (thePic.pm_form == PM_I) {
     int  *intptr;
     byte *pic24, *picptr;
+    
+    if (w*h*3 <= 0)
+      return pmError(bname, "Bogus PM file!!");
 
     if ((pic24 = (byte *) malloc((size_t) nRGBbytes))==NULL) {
       if (thePic.pm_cmt) free(thePic.pm_cmt);
@@ -195,6 +200,9 @@ int LoadPM(char *fname, PICINFO *pinfo)
 
   else if (thePic.pm_form == PM_C && thePic.pm_np>1) {
     byte *pic24, *picptr, *rptr, *gptr, *bptr;
+
+    if (w*h*3 <= 0)
+      return pmError(bname, "Bogus PM file!!");
 
     if ((pic24 = (byte *) malloc((size_t) nRGBbytes))==NULL) {
       if (thePic.pm_cmt) free(thePic.pm_cmt);

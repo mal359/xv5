@@ -322,6 +322,7 @@ static void doCmd(int cmd)
 
 
 
+char errbuffer[JMSG_LENGTH_MAX];
 
 
 /*******************************************/

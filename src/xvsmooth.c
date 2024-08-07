@@ -455,7 +455,7 @@ static int smoothXY(byte *pic24, byte *pic824, int is24, int swide, int shigh, i
   lastline = linecnt = pixR = pixG = pixB = 0;
   cptr = pic824;
 
-  for (i=0; i<=shigh; i++) {
+  for (i=0; i<shigh; i++) {
     ProgressMeter(0, shigh, i, "Smooth");
     if ((i&15) == 0) WaitCursor();
 

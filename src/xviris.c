@@ -282,6 +282,11 @@ static byte *getimagedata(FILE *fp, IMAGE *img)
       loaderr = "IRIS image dimensions out of range";
       return (byte *)NULL;
     }
+    
+    if (rlebuflen < 0 || tablen < 0) { /* || (tablen * sizeof(long)) < 0) */
+      loaderr = "Bogus IRIS File!";
+      return (byte *)NULL;
+    }
 
     starttab  = (u_long *) malloc((size_t) bufsize);
     lengthtab = (u_long *) malloc((size_t) bufsize);
