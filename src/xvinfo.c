@@ -319,7 +319,6 @@ va_dcl
   if (stnum == ISTR_WARNING && !ctrlUp && !infoUp && !anyBrowUp &&
       strlen(istrs[stnum])) {
     OpenAlert(istrs[stnum]);
-    sleep(1);  /* was 3, but _really_ slow for TIFFs with unknown tags... */
     CloseAlert();
   }
 }
