@@ -792,7 +792,7 @@ static void removeSelectedRange(void)
   if (selLen > 0) {
     int len;
     len = strlen(filename);
-    xvbcopy(&filename[selPos + selLen], &filename[selPos], (size_t)(len - (selPos + selLen)));
+    bcopy(&filename[selPos + selLen], &filename[selPos], (size_t)(len - (selPos + selLen)));
     filename[len - selLen] = '\0';
     curPos = selPos;
   }
@@ -835,8 +835,8 @@ static void pasteIntoBox(const char *text)
   clean[cpos] = '\0';
   cleanlen = cpos;
 
-  xvbcopy(&filename[curPos], &filename[curPos+cleanlen], (size_t) (len+1-curPos));
-  xvbcopy(clean, &filename[curPos], cleanlen);
+  bcopy(&filename[curPos], &filename[curPos+cleanlen], (size_t) (len+1-curPos));
+  bcopy(clean, &filename[curPos], cleanlen);
   curPos += cleanlen;
 
   free(clean);
@@ -1277,7 +1277,7 @@ int DirKey(int c)
 
     removeSelectedRange();
 
-    xvbcopy(&filename[curPos], &filename[curPos+1], (size_t) (len-curPos+1));
+    bcopy(&filename[curPos], &filename[curPos+1], (size_t) (len-curPos+1));
     filename[curPos]=c;  curPos++;
 
     scrollToFileName();
@@ -1288,7 +1288,7 @@ int DirKey(int c)
       removeSelectedRange();
     } else {
       if (curPos==0) return(-1);          /* at beginning of str */
-      xvbcopy(&filename[curPos], &filename[curPos-1], (size_t) (len-curPos+1));
+      bcopy(&filename[curPos], &filename[curPos-1], (size_t) (len-curPos+1));
       curPos--;
     }
 
@@ -1321,7 +1321,7 @@ int DirKey(int c)
       removeSelectedRange();
     } else {
       if (curPos==len) return(-1);
-      xvbcopy(&filename[curPos+1], &filename[curPos], (size_t) (len-curPos));
+      bcopy(&filename[curPos+1], &filename[curPos], (size_t) (len-curPos));
     }
 
     if (strlen(filename) > (size_t) 0) scrollToFileName();
@@ -2715,7 +2715,7 @@ int CheckPoll(int del)
       if (!haveLastStat ||
 	  st.st_size  != lastStat.st_size  ||
 	  st.st_mtime != lastStat.st_mtime)   {
-	xvbcopy((char *) &st, (char *) &lastStat, sizeof(struct stat));
+	bcopy((char *) &st, (char *) &lastStat, sizeof(struct stat));
 	haveLastStat = 1;
 	lastchgtime = nowT;
 	return 0;
@@ -2723,7 +2723,7 @@ int CheckPoll(int del)
 
       /* if it hasn't changed in a while... */
       if (haveLastStat && st.st_size > 0 && (nowT - lastchgtime) > del) {
-	xvbcopy((char *) &st, (char *) &origStat, sizeof(struct stat));
+	bcopy((char *) &st, (char *) &origStat, sizeof(struct stat));
 	haveLastStat = 0;  lastchgtime = 0;
 	return 1;
       }

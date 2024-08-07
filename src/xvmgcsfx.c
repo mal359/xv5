@@ -2156,13 +2156,13 @@ static int keyinMSD(c)
     if (c=='|' && curPos!=0 && !ISPIPE(DialogFileName[0])) return(-1);
 
     if (len >= MAXFNLEN-1) return(-1);  /* max length of string */
-    xvbcopy(&DialogFileName[curPos], &DialogFileName[curPos+1], (size_t) (len-curPos+1));
+    bcopy(&DialogFileName[curPos], &DialogFileName[curPos+1], (size_t) (len-curPos+1));
     DialogFileName[curPos]=c;  curPos++;
   }
 
   else if (c=='\010' || c=='\177') {    /* BS or DEL */
     if (curPos==0) return(-1);          /* at beginning of str */
-    xvbcopy(&DialogFileName[curPos], &DialogFileName[curPos-1], (size_t) (len-curPos+1));
+    bcopy(&DialogFileName[curPos], &DialogFileName[curPos-1], (size_t) (len-curPos+1));
     curPos--;
   }
 
@@ -2185,7 +2185,7 @@ static int keyinMSD(c)
 
   else if (c=='\004') {                 /* ^D: delete character at curPos */
     if (curPos==len) return(-1);
-    xvbcopy(&DialogFileName[curPos+1], &DialogFileName[curPos], (size_t) (len-curPos));
+    bcopy(&DialogFileName[curPos+1], &DialogFileName[curPos], (size_t) (len-curPos));
   }
 
   else if (c=='\002') {                 /* ^B: move backwards char */

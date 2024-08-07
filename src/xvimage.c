@@ -1260,7 +1260,7 @@ void RotatePic(byte *pic, int ptype, int *wp, int *hp, int dir)
 
 
   /* copy the rotated buffer into the original buffer */
-  xvbcopy((char *) pic1, (char *) pic, (size_t) (w*h*bperpix));
+  bcopy((char *) pic1, (char *) pic, (size_t) (w*h*bperpix));
 
   free(pic1);
 

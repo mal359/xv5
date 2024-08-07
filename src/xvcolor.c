@@ -100,7 +100,7 @@ void SortColormap(byte *pic, int pwide, int phigh, int *pnumcols, byte *rmap, by
   for (i=0; i<ncols; i++) {
     if (c[i].use > mdist) { mdist = c[i].use;  entry=i; }
   }
-  xvbcopy((char *) &c[entry], (char *) &c1[0], sizeof(CMAPENT));
+  bcopy((char *) &c[entry], (char *) &c1[0], sizeof(CMAPENT));
   c[entry].use = 0;   /* dealt with */
 
 
@@ -157,7 +157,7 @@ void SortColormap(byte *pic, int pwide, int phigh, int *pnumcols, byte *rmap, by
 
 
     /* c[entry] is the next color to put in the map.  do so */
-    xvbcopy((char *) &c[entry], (char *) &c1[i], sizeof(CMAPENT));
+    bcopy((char *) &c[entry], (char *) &c1[i], sizeof(CMAPENT));
     c[entry].use = 0;
   }
 
@@ -455,7 +455,7 @@ static void allocROColors(void)
 
 	if (close<0) FatalError("This Can't Happen! (How reassuring.)");
 	if (xvAllocColor(theDisp, cmap, &ctab[close])) {
-	  xvbcopy((char *) &ctab[close], (char *) &defs[c], sizeof(XColor));
+	  bcopy((char *) &ctab[close], (char *) &defs[c], sizeof(XColor));
 	  failed[c]= 0;
 	  cols[c]  = ctab[close].pixel;
 	  rdisp[c] = ctab[close].red   >> 8;
@@ -498,7 +498,7 @@ static void allocROColors(void)
       }
 
       if (close<0) FatalError("Pass3: Failed to alloc ANY colors!\n");
-      xvbcopy((char *) &defs[close], (char *) &defs[c], sizeof(XColor));
+      bcopy((char *) &defs[close], (char *) &defs[c], sizeof(XColor));
       failed[c]= 0;
       cols[c]  = defs[c].pixel;
       rdisp[c] = defs[c].red   >> 8;
@@ -643,7 +643,7 @@ static void allocRWColors(void)
 	  }
 
 	  if (close<0) FatalError("This Can't Happen! (How reassuring.)");
-	  xvbcopy((char *) &defs[close], (char *) &defs[c], sizeof(XColor));
+	  bcopy((char *) &defs[close], (char *) &defs[c], sizeof(XColor));
 	  failed[c]= 0;
 	  cols[c]  = defs[c].pixel;
 	  rdisp[c] = defs[c].red   >> 8;
@@ -888,7 +888,7 @@ static void putECfirst(void)
   }
 
   /* shift 0..i-1 down one position */
-  xvbcopy((char *) colAllocOrder, (char *) colAllocOrder+1,
+  bcopy((char *) colAllocOrder, (char *) colAllocOrder+1,
 	  i * sizeof(colAllocOrder[0]));
   colAllocOrder[0] = editColor;
 }

@@ -781,7 +781,7 @@ static byte *getFromClip(void)
 	data1[1] = (len>> 8) & 0xff;
 	data1[2] = (len>>16) & 0xff;
 	data1[3] = (len>>24) & 0xff;
-	xvbcopy((char *) data, (char *) data1+4, (size_t) len-4);
+	bcopy((char *) data, (char *) data1+4, (size_t) len-4);
 
 	XFree((void *) data);
 	return data1;

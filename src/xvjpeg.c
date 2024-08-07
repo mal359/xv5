@@ -954,7 +954,7 @@ static int writeJFIF(FILE *fp, byte *pic, int w, int h, int coltype)
 	if (*sp1 == '\n') sp1++;               /* move past \n */
 
 	/* move comments from sp1 and on down to sp */
-	xvbcopy(sp1, sp, strlen(sp1) + 1);   /* +1 to copy the trailing \0 */
+	bcopy(sp1, sp, strlen(sp1) + 1);   /* +1 to copy the trailing \0 */
 
 	done = 1;
       }

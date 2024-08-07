@@ -25,7 +25,7 @@
  *     const char  *BaseName(const char *)
  *     void   DrawTempGauge(win, x,y,w,h, percent, fg,bg,hi,lo, str)
  *     void   ProgressMeter(min, max, val, str);
- *     void   xvbcopy(src, dst, length)
+ *     void   xvbcopy(src, dst, length) - DEAD
  *     int    xvbcmp (s1,  s2,  length)
  *     void   xvbzero(s, length) - DEAD
  *     char  *xv_strstr(s1, s2)
@@ -965,42 +965,50 @@ void XVCreatedFile(char *fullname)
 }
 
 
-/***************************************************/
+/***************************************************
 void xvbcopy(const char *src, char *dst, size_t len)
 {
-  /* Modern OS's (Solaris, etc.) frown upon the use of bcopy(),
+   * Modern OS's (Solaris, etc.) frown upon the use of bcopy(),
    * and only want you to use memcpy().  However, memcpy() is broken,
    * in the sense that it doesn't properly handle overlapped regions
    * of memory.  This routine does, and also has its arguments in
    * the same order as bcopy() did, without using bcopy().
-   */
+   *
+   **************************************************************************
+   * Nearly every modern C library except for the BSDs' alias bcopy to      *
+   * memcpy. This is redundant.						    *
+   *       								    *
+   * Preserving this kludge, that's so 90's that it's wearing checkerboard  *
+   * Vans, in amber.							    *
+   * 								   MAL 2024 *
+   **************************************************************************
 
-  /* determine if the regions overlap
+   * determine if the regions overlap
    *
    * 3 cases:  src=dst, src<dst, src>dst
    *
    * if src=dst, they overlap completely, but nothing needs to be moved
    * if src<dst and src+len>dst then they overlap
    * if src>dst and src<dst+len then they overlap
-   */
+   * 
 
-  if (src==dst || len<=0) return;    /* nothin' to do */
+  if (src==dst || len<=0) return;    * nothin' to do *
 
-  if (src<dst && src+len>dst) {  /* do a backward copy */
+  if (src<dst && src+len>dst) {  * do a backward copy *
     src = src + len - 1;
     dst = dst + len - 1;
     for ( ; len>0; len--, src--, dst--) *dst = *src;
   }
 
-  else if (src>dst && src<dst+len) {  /* do a forward copy */
+  else if (src>dst && src<dst+len) {  * do a forward copy *
     for ( ; len>0; len--, src++, dst++) *dst = *src;
   }
-  else /* no overlap, use the fast method */
+  else * no overlap, use the fast method *
     memcpy(dst, src, len);
 }
 
 
-/***************************************************/
+***************************************************/
 int xvbcmp (const char *s1, const char *s2, size_t len)
 {
   for ( ; len>0; len--, s1++, s2++) {

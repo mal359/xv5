@@ -1865,7 +1865,7 @@ static void parseCmdLine(int argc, char **argv)
   /* build origlist[], a copy of namelist that remains unmodified, for
      use with the 'autoDelete' option */
   orignumnames = numnames;
-  xvbcopy((char *) namelist, (char *) origlist, sizeof(origlist));
+  bcopy((char *) namelist, (char *) origlist, sizeof(origlist));
 }
 
 
@@ -4519,10 +4519,10 @@ static void deleteFromList(int delnum)
 
   if (delnum != numnames-1) {
     /* snip out of namelist and dispnames lists */
-    xvbcopy((char *) &namelist[delnum+1], (char *) &namelist[delnum],
+    bcopy((char *) &namelist[delnum+1], (char *) &namelist[delnum],
 	  (numnames - delnum - 1) * sizeof(namelist[0]));
 
-    xvbcopy((char *) &dispnames[delnum+1], (char *) &dispnames[delnum],
+    bcopy((char *) &dispnames[delnum+1], (char *) &dispnames[delnum],
 	  (numnames - delnum - 1) * sizeof(dispnames[0]));
   }
 

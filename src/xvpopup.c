@@ -1128,14 +1128,14 @@ static int doGSKey(int c)
 
     if (len >= gsBufLen-1) return 1;     /* at max length */
 
-    xvbcopy(&gsBuf[gsCurPos], &gsBuf[gsCurPos+1], (size_t) len-gsCurPos+1);
+    bcopy(&gsBuf[gsCurPos], &gsBuf[gsCurPos+1], (size_t) len-gsCurPos+1);
     gsBuf[gsCurPos]=c;  gsCurPos++;
   }
 
 
   else if (c=='\010') {                 /* BS */
     if (gsCurPos==0) return 1;                     /* at beginning of str */
-    xvbcopy(&gsBuf[gsCurPos], &gsBuf[gsCurPos-1], (size_t) len-gsCurPos+1);
+    bcopy(&gsBuf[gsCurPos], &gsBuf[gsCurPos-1], (size_t) len-gsCurPos+1);
     gsCurPos--;
   }
 
@@ -1158,7 +1158,7 @@ static int doGSKey(int c)
 
   else if (c=='\004' || c=='\177') {    /* ^D or DEL: delete character at gsCurPos */
     if (gsCurPos==len) return 1;
-    xvbcopy(&gsBuf[gsCurPos+1], &gsBuf[gsCurPos], (size_t) len-gsCurPos);
+    bcopy(&gsBuf[gsCurPos+1], &gsBuf[gsCurPos], (size_t) len-gsCurPos);
   }
 
   else if (c=='\002') {                 /* ^B: move backwards char */

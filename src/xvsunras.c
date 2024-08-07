@@ -221,9 +221,9 @@ int LoadSunRas(char *fname, PICINFO *pinfo)
     switch (d) {
     case 1:  sunRas1to8 (image + w * i, line, w);
              break;
-    case 8:  xvbcopy((char *) line, (char *) image + w * i, (size_t) w);
+    case 8:  bcopy((char *) line, (char *) image + w * i, (size_t) w);
              break;
-    case 24: xvbcopy((char *) line, (char *) image + w * i * 3, (size_t) w*3);
+    case 24: bcopy((char *) line, (char *) image + w * i * 3, (size_t) w*3);
              break;
 
     case 32:
@@ -496,7 +496,7 @@ int WriteSunRas(FILE *fp, byte *pic, int ptype, int w, int h, byte *rmap, byte *
     }
 
     else if (d == 8)
-      xvbcopy((char *) pic + y * w, (char *) line, (size_t) w);
+      bcopy((char *) pic + y * w, (char *) line, (size_t) w);
 
     else /* d == 1 */
       sunRas8to1 (line, pic + y * w, w, flipbw);

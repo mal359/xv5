@@ -725,7 +725,7 @@ static int tvChkEvent(TVINFO *tv, XEvent *xev)
       XRectangle    rect;
       XEvent        evt;
 
-      xvbcopy((char *) e, (char *) &evt, sizeof(XEvent));
+      bcopy((char *) e, (char *) &evt, sizeof(XEvent));
       reg = XCreateRegion();
       count = 0;
 

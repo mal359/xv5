@@ -91,7 +91,7 @@ FLmask (void)
 
     if (start24bitAlg (&pic24, &tmpPic))
 	return;
-    xvbcopy ((char *) pic24, (char *) tmpPic,
+    bcopy ((char *) pic24, (char *) tmpPic,
 	     (size_t) (pWIDE * pHIGH * 3));
 
     doFLmask (pic24, pWIDE, pHIGH, tmpPic, sx, sy, sw, sh);
@@ -121,7 +121,7 @@ BitReverse (void)
 
     if (start24bitAlg (&pic24, &tmpPic))
 	return;
-    xvbcopy ((char *) pic24, (char *) tmpPic,
+    bcopy ((char *) pic24, (char *) tmpPic,
 	     (size_t) (pWIDE * pHIGH * 3));
 
     doColReverse (pic24, pWIDE, pHIGH, tmpPic, sx, sy, sw, sh, 1);
@@ -151,7 +151,7 @@ ColReverse (void)
 
     if (start24bitAlg (&pic24, &tmpPic))
 	return;
-    xvbcopy ((char *) pic24, (char *) tmpPic,
+    bcopy ((char *) pic24, (char *) tmpPic,
 	     (size_t) (pWIDE * pHIGH * 3));
 
     doColReverse (pic24, pWIDE, pHIGH, tmpPic, sx, sy, sw, sh, 0);
@@ -207,7 +207,7 @@ Q0mask (void)
     CropRect2Rect (&sx, &sy, &sw, &sh, 0, 0, pWIDE, pHIGH);
 
     if (start24bitAlg (&pic24, &tmpPic)) return;
-    xvbcopy ((char *) pic24, (char *) tmpPic,
+    bcopy ((char *) pic24, (char *) tmpPic,
 	     (size_t) (pWIDE * pHIGH * 3));
 
     doQ0mask (pic24, pWIDE, pHIGH, tmpPic, sx, sy, sw, sh, pixX, pixY);
@@ -235,7 +235,7 @@ RGBchange (void)
     SetISTR (ISTR_INFO, str);
 
     if (start24bitAlg (&pic24, &tmpPic)) return;
-    xvbcopy ((char *) pic24, (char *) tmpPic,
+    bcopy ((char *) pic24, (char *) tmpPic,
 	     (size_t) (pWIDE * pHIGH * 3));
 
     doRGBchange (pic24, pWIDE, pHIGH, tmpPic, sx, sy, sw, sh);
@@ -264,7 +264,7 @@ WINmask (void)
     SetISTR (ISTR_INFO, str);
 
     if (start24bitAlg (&pic24, &tmpPic)) return;
-    xvbcopy ((char *) pic24, (char *) tmpPic,
+    bcopy ((char *) pic24, (char *) tmpPic,
 	     (size_t) (pWIDE * pHIGH * 3));
 
     doWINmask (pic24, pWIDE, pHIGH, tmpPic, sx, sy, sw, sh);
@@ -298,7 +298,7 @@ MEKOmask (void)
     CropRect2Rect (&sx, &sy, &sw, &sh, 0, 0, pWIDE, pHIGH);
 
     if (start24bitAlg (&pic24, &tmpPic)) return;
-    xvbcopy ((char *) pic24, (char *) tmpPic,
+    bcopy ((char *) pic24, (char *) tmpPic,
 	     (size_t) (pWIDE * pHIGH * 3));
     doMEKOmask (pic24, pWIDE, pHIGH, tmpPic, sx, sy, sw, sh, i);
     end24bitAlg (pic24, tmpPic);
@@ -422,7 +422,7 @@ CPmask (void)
     CropRect2Rect (&sx, &sy, &sw, &sh, 0, 0, pWIDE, pHIGH);
 
     if (start24bitAlg (&pic24, &tmpPic)) return;
-    xvbcopy ((char *) pic24, (char *) tmpPic,
+    bcopy ((char *) pic24, (char *) tmpPic,
 	     (size_t) (pWIDE * pHIGH * 3));
     doCPmask (pic24, pWIDE, pHIGH, tmpPic, sx, sy, sw, sh, (char *) key);
     end24bitAlg (pic24, tmpPic);
@@ -798,7 +798,7 @@ MaskCr (void)
     SetISTR (ISTR_INFO, str);
 
     if (start24bitAlg (&pic24, &tmpPic)) return;
-    xvbcopy ((char *) pic24, (char *) tmpPic,
+    bcopy ((char *) pic24, (char *) tmpPic,
 	     (size_t) (pWIDE * pHIGH * 3));
 
     doMaskCr (pic24, pWIDE, pHIGH, sx, sy, sw, sh);

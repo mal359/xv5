@@ -1430,7 +1430,7 @@ static void epsPreview(FILE *fp, byte *pic, int ptype, int colorType, int w, int
     lpic = (byte *) malloc((size_t) bufsize);
     if (!lpic) FatalError("can't alloc mem to rotate image in epsPreview");
 
-    xvbcopy((char *) pic, (char *) lpic, (size_t) bufsize);
+    bcopy((char *) pic, (char *) lpic, (size_t) bufsize);
     RotatePic(lpic, ptype, &w, &h, 0);
     pic = lpic;
   }
