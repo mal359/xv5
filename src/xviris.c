@@ -115,7 +115,7 @@ int LoadIRIS(char *fname, PICINFO *pinfo)
   long    filesize;
 
   trunc = 0;
-  xvbzero((char *) &img, sizeof(IMAGE));
+  bzero((char *) &img, sizeof(IMAGE));
 
   bname = BaseName(fname);
 
@@ -529,7 +529,7 @@ int WriteIRIS(FILE *fp, byte *pic, int ptype, int w, int h, byte *rmap, byte *gm
 
   XV_UNUSED(numcols);
 
-  xvbzero((char *) &img, sizeof(IMAGE));
+  bzero((char *) &img, sizeof(IMAGE));
 
   /* write header information */
   fwrite(&img, sizeof(IMAGE), (size_t) 1, fp);

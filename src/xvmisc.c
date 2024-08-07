@@ -27,7 +27,7 @@
  *     void   ProgressMeter(min, max, val, str);
  *     void   xvbcopy(src, dst, length)
  *     int    xvbcmp (s1,  s2,  length)
- *     void   xvbzero(s, length)
+ *     void   xvbzero(s, length) - DEAD
  *     char  *xv_strstr(s1, s2)
  *     FILE  *xv_fopen(str, str)
  *     void   xv_mktemp(str)
@@ -1011,14 +1011,39 @@ int xvbcmp (const char *s1, const char *s2, size_t len)
 }
 
 
-/***************************************************/
+/**************************************************************************
+ * 								          *
+ * This is a local reimplementation of Berkeley's bzero() function.       *
+ * 								          *
+ * FreeBSD's manual entry gives historial/political context...            *
+ *								          *
+ * ``A bzero() function appeared in 4.3BSD. Its prototype existed         *
+ * previously in <string.h> before it was moved to <strings.h> for        *
+ * IEEE Std 1003.1-2001 ("POSIX.1") compliance.''		          *
+ * 								          *
+ * ...and comments on its status and use-cases			          *
+ *  									  *
+ * ``IEEE Std 1003.1-2008 ("POSIX.1") removes the specification of        * 
+ * bzero() and it is marked as LEGACY in IEEE Std 1003.1-2004 	    	  *
+ * ("POSIX.1"). For portability with other systems new programs should    *
+ * use memset(3).''	   	 				          *
+ *								          *
+ * Nearly all modern C standard libraries alias bzero to memset; only the * 
+ * macOS and OpenBSD C libraries still implement a dedicated bzero.       *
+ *									  *
+ * We thus don't need to explicitly call memset, but we also don't need   *
+ * this internal function. 						  *	  *
+ *									  *
+ * Preserved in formaldehyde.					          * 
+ * 								 MAL 2024 *
+ **************************************************************************
 void xvbzero(char *s, size_t len)
 {
   for ( ; len>0; len--) *s++ = 0;
 }
 
 
-/***************************************************/
+***************************************************/
 void xv_getwd(char *buf, size_t buflen)
 {
   /* Gets the current working directory and puts it in buf.  No trailing '/'. */

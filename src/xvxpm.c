@@ -582,7 +582,7 @@ int WriteXPM(FILE *fp /* File to write to */,
     /* index array into the colormap (which may not be 'packed') */
     /* Thanks to John Bradley for this code..                    */
 
-    xvbzero((char *) hist, sizeof(hist));
+    bzero((char *) hist, sizeof(hist));
     numcol = 0;
 
     if (DEBUG)

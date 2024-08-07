@@ -823,10 +823,10 @@ static int pic2_arith_expand_line(struct pic2_info *pi, pixel **line)
     pi->vram_now[-1] = cc;
 
     /* clear flag for change point */
-    xvbzero((char *) pi->flag_next, xw * sizeof(pi->flag_next[0]));
+    bzero((char *) pi->flag_next, xw * sizeof(pi->flag_next[0]));
 
     /* clear flag for position probability space */
-    xvbzero((char *) pi->flag2_next2, xw * sizeof(pi->flag2_next2[0]));
+    bzero((char *) pi->flag2_next2, xw * sizeof(pi->flag2_next2[0]));
 
     for (x = 0; x < xw; x++) {
 	if (pi->flag_now[x] < 0) {
@@ -875,12 +875,12 @@ static int pic2_arith_loader_init(struct pic2_info *pi)
 
     /* clear cache and flags */
     xw = pi->block->x_wid;
-    xvbzero((char *) pi->cache, 8 * 8 * 8 * sizeof(pi->cache[0]));
-    xvbzero((char *) pi->cache_pos, 8 * 8 * 8 * sizeof(pi->cache_pos[0]));
+    bzero((char *) pi->cache, 8 * 8 * 8 * sizeof(pi->cache[0]));
+    bzero((char *) pi->cache_pos, 8 * 8 * 8 * sizeof(pi->cache_pos[0]));
 
-    xvbzero((char *) pi->flag_now, xw * sizeof(pi->flag_now[0]));
-    xvbzero((char *) pi->flag2_now, 8 + xw * sizeof(pi->flag2_now[0]));
-    xvbzero((char *) pi->flag2_next, 8 + xw * sizeof(pi->flag2_next[0]));
+    bzero((char *) pi->flag_now, xw * sizeof(pi->flag_now[0]));
+    bzero((char *) pi->flag2_now, 8 + xw * sizeof(pi->flag2_now[0]));
+    bzero((char *) pi->flag2_next, 8 + xw * sizeof(pi->flag2_next[0]));
 
     /* go to picture data field */
     pic2_seek_file(pi, pi->block_pos + PIC2_BLOCK_HEADER_SIZE, SEEK_SET);
@@ -1004,7 +1004,7 @@ static int pic2_fast_expand_line(struct pic2_info *pi, pixel **line)
     } else
 	cc = pi->vram_prev[xw - 1];
 
-    xvbzero((char *) pi->flag_next, xw * sizeof(pi->flag_next[0]));
+    bzero((char *) pi->flag_next, xw * sizeof(pi->flag_next[0]));
 
     for (x = 0; x < xw; x++) {
 	if (pi->dd > 0) {
@@ -1060,10 +1060,10 @@ static int pic2_fast_loader_init(struct pic2_info *pi)
 
     /* clear cache and flags */
     xw = pi->block->x_wid;
-    xvbzero((char *) pi->cache, sizeof(pi->cache[0]) * 256);
-    xvbzero((char *) pi->cache_pos, sizeof(pi->cache_pos[0]) * 8 * 8 * 8);
-    xvbzero((char *) pi->flag_now, (xw + 8) * sizeof(pi->flag_now[0]));
-    xvbzero((char *) pi->flag_next, (xw + 8) * sizeof(pi->flag_next[0]));
+    bzero((char *) pi->cache, sizeof(pi->cache[0]) * 256);
+    bzero((char *) pi->cache_pos, sizeof(pi->cache_pos[0]) * 8 * 8 * 8);
+    bzero((char *) pi->flag_now, (xw + 8) * sizeof(pi->flag_now[0]));
+    bzero((char *) pi->flag_next, (xw + 8) * sizeof(pi->flag_next[0]));
 
     /* go to picture data field */
     pic2_seek_file(pi, pi->block_pos + PIC2_BLOCK_HEADER_SIZE, SEEK_SET);
@@ -1898,19 +1898,19 @@ static int pic2_arith_press_line(struct pic2_info *pi, pixel **line)
 	    for (i = 0; i < PIC2_ARITH_CONTEXT; i++)
 		pic2_write_short(pi, c_tab[i]);
 
-	    xvbzero((char *) pi->vram_now, xw * sizeof(pi->vram_now[0]));
+	    bzero((char *) pi->vram_now, xw * sizeof(pi->vram_now[0]));
 	} else {				/* statistical pass */
-	    xvbzero((char *) c_0_sum, PIC2_ARITH_CONTEXT * sizeof(c_0_sum[0]));
-	    xvbzero((char *) c_sum, PIC2_ARITH_CONTEXT * sizeof(c_sum[0]));
+	    bzero((char *) c_0_sum, PIC2_ARITH_CONTEXT * sizeof(c_0_sum[0]));
+	    bzero((char *) c_sum, PIC2_ARITH_CONTEXT * sizeof(c_sum[0]));
 	}
 
 	/* initialize flags */
-	xvbzero((char *) pi->cache, 8 * 8 * 8 * sizeof(pi->cache[0]));
-	xvbzero((char *) pi->cache_pos, 8 * 8 * 8 * sizeof(pi->cache_pos[0]));
+	bzero((char *) pi->cache, 8 * 8 * 8 * sizeof(pi->cache[0]));
+	bzero((char *) pi->cache_pos, 8 * 8 * 8 * sizeof(pi->cache_pos[0]));
 
-	pic2_xvbzero((char *) pi->flag2_next - 4,
+	bzero((char *) pi->flag2_next - 4,
 		(8 + xw) * sizeof(pi->flag2_next[0]));
-	pic2_xvbzero((char *) pi->flag2_next2 - 4,
+	bzero((char *) pi->flag2_next2 - 4,
 		(8 + xw) * sizeof(pi->flag2_next2[0]));
 
 	pi->vram_next[-1] = cc;
@@ -2198,8 +2198,8 @@ static int pic2_fast_press_line(struct pic2_info *pi, pixel **line)
 	pixel cc = 0;
 
 	/* initialize flags */
-	xvbzero((char *) pi->cache, 256 * sizeof(pi->cache[0]));
-	xvbzero((char *) pi->cache_pos,
+	bzero((char *) pi->cache, 256 * sizeof(pi->cache[0]));
+	bzero((char *) pi->cache_pos,
 		PIC2_FAST_CACHE * sizeof(pi->cache_pos[0]));
 
 	/* mark change point */
@@ -2919,7 +2919,7 @@ static void pic2_flush_bits(struct pic2_info *pi)
  */
 static void pic2_init_info(struct pic2_info *pi)
 {
-    xvbzero((char *) pi, sizeof(struct pic2_info));
+    bzero((char *) pi, sizeof(struct pic2_info));
     pi->header = pic2_new(sizeof(struct pic2_header), "pic2_init_info#1");
     pi->block = pic2_new(sizeof(struct pic2_block), "pic2_init_info#2");
 }
@@ -3042,7 +3042,7 @@ static void *pic2_new(size_t size, char *fn)
     void *p;
 
     p = (void *) pic2_malloc(size, fn);
-    xvbzero((char *) p, size);
+    bzero((char *) p, size);
     return (p);
 }
 

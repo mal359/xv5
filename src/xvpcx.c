@@ -225,7 +225,7 @@ static int pcxLoadImage8(const char *fname, FILE *fp, PICINFO *pinfo, byte *hdr)
   image = (byte *) malloc((size_t) count);
   if (!image) FatalError("Can't alloc 'image' in pcxLoadImage8()");
 
-  xvbzero((char *) image, (size_t) count);
+  bzero((char *) image, (size_t) count);
 
   switch (hdr[PCX_BPP]) {
   case 1:   pcxLoadRaster(fp, image, 1, hdr, pinfo->w, pinfo->h);   break;
@@ -266,7 +266,7 @@ static int pcxLoadImage24(const char *fname, FILE *fp, PICINFO *pinfo, byte *hdr
   pic24 = (byte *) malloc((size_t) count);
   if (!pic24) FatalError("Can't malloc 'pic24' in pcxLoadImage24()");
 
-  xvbzero((char *) pic24, (size_t) count);
+  bzero((char *) pic24, (size_t) count);
 
   maxv = 0;
   pix = pinfo->pic = pic24;

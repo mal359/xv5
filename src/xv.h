@@ -1996,7 +1996,6 @@ void XVDeletedFile         PARM((char *));
 void XVCreatedFile         PARM((char *));
 void xvbcopy               PARM((const char *, char *, size_t));
 int  xvbcmp                PARM((const char *, const char *, size_t));
-void xvbzero               PARM((char *, size_t));
 void xv_getwd              PARM((char *, size_t));
 char *xv_strstr            PARM((const char *, const char *));
 FILE *xv_fopen             PARM((const char *, const char *));

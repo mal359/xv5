@@ -642,7 +642,7 @@ static void maki_write_pixel_data(struct maki_info *mi)
 
 static void maki_init_info(struct maki_info *mi)
 {
-    xvbzero((char *)mi, sizeof(struct maki_info));
+    bzero((char *)mi, sizeof(struct maki_info));
     mi->fp = NULL;
     mi->fsize = 0;
     mi->x0 = mi->y0 = mi->x1 = mi->y1 = 0;

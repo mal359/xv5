@@ -323,8 +323,8 @@ static void xv_compress(int init_bits, FILE *outfile, byte *data, int len)
   /* initialize 'compress' globals */
   maxbits = XV_BITS;
   maxmaxcode = 1<<XV_BITS;
-  xvbzero((char *) htab,    sizeof(htab));
-  xvbzero((char *) codetab, sizeof(codetab));
+  bzero((char *) htab,    sizeof(htab));
+  bzero((char *) codetab, sizeof(codetab));
   hsize = HSIZE;
   free_ent = 0;
   clear_flg = 0;

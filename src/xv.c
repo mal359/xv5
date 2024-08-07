@@ -2197,7 +2197,7 @@ static int openPic(int filenum)
   origname[0] = '\0';
 #endif
 
-  xvbzero((char *) &pinfo, sizeof(PICINFO));
+  bzero((char *) &pinfo, sizeof(PICINFO));
 
   /* init important fields of pinfo */
   pinfo.pic = (byte *) NULL;
@@ -2596,7 +2596,7 @@ ms_auto_no:
       i = TextView(origname);
     else
 #endif
-        // JET - no, just report on stderr and move on
+        /* JET - no, just report on stderr and move on */
 #if 0
         i = TextView(filename);
     SetISTR(ISTR_INFO,"'%s' not in a recognized format.", basefname);
@@ -2606,7 +2606,7 @@ ms_auto_no:
 #else
     fprintf(stderr, "'%s' not in a recognized format.\n", basefname);
     goto FAILED;
-#endif // 0
+#endif /* 0 */
   }
 
   if (filetype < RFT_ERROR) {
@@ -4176,7 +4176,7 @@ static void createMainWindow(const char *geom, const char *name)
 
     mwm_wm_hints = XInternAtom(theDisp, "_MOTIF_WM_HINTS", False);
     if (mwm_wm_hints != None) {
-      xvbzero((char *) &mwmhints, sizeof(mwmhints));
+      bzero((char *) &mwmhints, sizeof(mwmhints));
       mwmhints.flags = 2;
       mwmhints.decorations = 4;
 

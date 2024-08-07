@@ -393,9 +393,9 @@ static int smoothY(byte *pic24, byte *pic824, int is24, int swide, int shigh, in
 	*pic24++ = lbufB[j] / linecnt;
       }
 
-      xvbzero( (char *) lbufR, dwide * sizeof(int));  /* clear out line bufs */
-      xvbzero( (char *) lbufG, dwide * sizeof(int));
-      xvbzero( (char *) lbufB, dwide * sizeof(int));
+      bzero( (char *) lbufR, dwide * sizeof(int));  /* clear out line bufs */
+      bzero( (char *) lbufG, dwide * sizeof(int));
+      bzero( (char *) lbufB, dwide * sizeof(int));
       linecnt = 0;  lastline = thisline;
     }
   }
@@ -483,9 +483,9 @@ static int smoothXY(byte *pic24, byte *pic824, int is24, int swide, int shigh, i
       }
 
       lastline = thisline;
-      xvbzero( (char *) lbufR, swide * sizeof(int));  /* clear out line bufs */
-      xvbzero( (char *) lbufG, swide * sizeof(int));
-      xvbzero( (char *) lbufB, swide * sizeof(int));
+      bzero( (char *) lbufR, swide * sizeof(int));  /* clear out line bufs */
+      bzero( (char *) lbufG, swide * sizeof(int));
+      bzero( (char *) lbufB, swide * sizeof(int));
       linecnt = 0;
     }
 

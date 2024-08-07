@@ -1037,10 +1037,10 @@ static int slow_quant(byte *pic24, int w, int h, byte *pic8, byte *rm, byte *gm,
   slow_select_colors(descols);
 
   /* Zero the histogram: now to be used as inverse color map */
-  xvbzero((char *) sl_histogram, sizeof(hist3d));
+  bzero((char *) sl_histogram, sizeof(hist3d));
 
   /* Initialize the propagated errors to zero. */
-  xvbzero((char *) sl_fserrors, fs_arraysize);
+  bzero((char *) sl_fserrors, fs_arraysize);
   sl_on_odd_row = FALSE;
 
   /* Map the image. */
@@ -1060,7 +1060,7 @@ static void slow_fill_histogram (register byte *pic24, register int numpixels)
   register histptr histp;
   register hist2d * histogram = sl_histogram;
 
-  xvbzero((char *) histogram, sizeof(hist3d));
+  bzero((char *) histogram, sizeof(hist3d));
 
   while (numpixels-- > 0) {
     /* get pixel value and index into the histogram */
