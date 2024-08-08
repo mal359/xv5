@@ -26,7 +26,7 @@
  *     void   DrawTempGauge(win, x,y,w,h, percent, fg,bg,hi,lo, str)
  *     void   ProgressMeter(min, max, val, str);
  *     void   xvbcopy(src, dst, length) - DEAD
- *     int    xvbcmp (s1,  s2,  length)
+ *     int    xvbcmp (s1,  s2,  length) - DEAD
  *     void   xvbzero(s, length) - DEAD
  *     char  *xv_strstr(s1, s2)
  *     FILE  *xv_fopen(str, str)
@@ -1008,7 +1008,29 @@ void xvbcopy(const char *src, char *dst, size_t len)
 }
 
 
-***************************************************/
+***************************************************
+*****************************************************************************
+* 									    *
+* This is a local reimplementation of Berkeley's bcmp() function.	    *
+* 									    *
+* Here's what Single UNIX Specification v2 (published 1997) has to say:     *
+*									    *
+* ``For portability to implementations conforming to earlier versions of    *
+* this specification, memcmp() is preferred over this function.''	    *
+*									    *
+* Diplomatic.							            *
+*									    *
+* Most contemporary C libraries - sans those on macOS, *BSD, and illumos -  *
+* alias bcmp() to memcmp(). 						    *
+* 									    *
+* Bionic (on platforms other than Intel x86) has no bcmp()        	    *
+* implementation - I'll add a memcmp() case soon, just in case someone      *
+* wants to run this on a theoretical (bizarro) Bionic-based ARM, MIPS,      *
+* RISCV, or AMD64 machine. 						    *
+*									    *
+* Frozen in carbonite.							    *
+*								MAL 2024    *
+*****************************************************************************
 int xvbcmp (const char *s1, const char *s2, size_t len)
 {
   for ( ; len>0; len--, s1++, s2++) {
@@ -1019,7 +1041,7 @@ int xvbcmp (const char *s1, const char *s2, size_t len)
 }
 
 
-/**************************************************************************
+ **************************************************************************
  * 								          *
  * This is a local reimplementation of Berkeley's bzero() function.       *
  * 								          *

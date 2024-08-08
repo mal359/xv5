@@ -415,7 +415,7 @@ int LoadPIC2(char *fname, PICINFO *pinfo, int quick)
 	pinfo->normh = pinfo->h;
 	pinfo->type = PIC24;
 	for (j = 0; j < n_form_tab; j++) {
-	    if (xvbcmp(pic2.block->id, form_tab[j].id, (size_t) 4) == 0)
+	    if (bcmp(pic2.block->id, form_tab[j].id, (size_t) 4) == 0)
 		break;
 	}
 	pinfo->frmType = F_PIC2;
@@ -2439,7 +2439,7 @@ static int pic2_next_block(struct pic2_info *pi)
 
    /* check block id */
     for (i = 0; i < n_form_tab; i++) {
-	if (xvbcmp(pi->block->id, form_tab[i].id, (size_t) 4) == 0)
+	if (bcmp(pi->block->id, form_tab[i].id, (size_t) 4) == 0)
 	    break;
     }
     if (i == n_form_tab)
@@ -2480,7 +2480,7 @@ static int pic2_load_block(struct pic2_info *pi)
     int i;
 
     for (i = 0; i < n_form_tab; i++) {
-	if (xvbcmp(pi->block->id, form_tab[i].id, (size_t) 4) == 0)
+	if (bcmp(pi->block->id, form_tab[i].id, (size_t) 4) == 0)
 	    break;
     }
     if (i == n_form_tab)
@@ -2495,7 +2495,7 @@ static int pic2_save_block(struct pic2_info *pi, pixel **line, int x, int y, int
     int i;
 
     for (i = 0; i < n_form_tab; i++) {
-	if (xvbcmp(id, form_tab[i].id, (size_t) 4) == 0)
+	if (bcmp(id, form_tab[i].id, (size_t) 4) == 0)
 	    break;
     }
     if (i == n_form_tab)

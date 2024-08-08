@@ -1731,7 +1731,7 @@ static int selectCodeset(TVINFO *tv)
 #ifdef TV_MULTILINGUAL
 static void setCodingSpec(TVINFO *tv, struct coding_spec *cs)
 {
-  if (xvbcmp((char *) &tv->ccs, (char *) cs, sizeof *cs) == 0)
+  if (bcmp((char *) &tv->ccs, (char *) cs, sizeof *cs) == 0)
     return;
 
   tv->ccs = *cs;
