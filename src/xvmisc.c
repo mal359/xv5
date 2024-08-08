@@ -25,10 +25,6 @@
  *     const char  *BaseName(const char *)
  *     void   DrawTempGauge(win, x,y,w,h, percent, fg,bg,hi,lo, str)
  *     void   ProgressMeter(min, max, val, str);
- *     void   xvbcopy(src, dst, length) - DEAD
- *     int    xvbcmp (s1,  s2,  length) - DEAD
- *     void   xvbzero(s, length) - DEAD
- *     char  *xv_strstr(s1, s2) - DEAD
  *     FILE  *xv_fopen(str, str)
  *     void   xv_mktemp(str)
  *     void   Timer(milliseconds)
@@ -39,8 +35,8 @@
 #define NEEDSTIME
 #include "xv.h"
 
-#ifdef __linux__	/* probably others, too, but being conservative */
-#  include <unistd.h>	/* getwd() */
+#ifdef _POSIX_SOURCE
+#  include <unistd.h>	/* get(c)wd() */
 #endif
 
 #include "bits/fc_left"
@@ -1198,6 +1194,16 @@ void Timer(int msec)   /* waits for 'n' milliseconds */
 #ifdef USLEEP
   usleep(usec);
   /* return */
+#endif
+
+#ifdef NANOSLEEP
+  {
+    struct timespec req, rem;
+    req.tv_sec = msec / 1000;
+    req.tv_nsec = (msec % 1000) * 1000000L;
+    nanosleep(&req, &rem);
+    return;
+  }
 #endif
 
 

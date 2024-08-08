@@ -291,6 +291,10 @@
 #    include <socket.h>
 #  endif
 
+#if defined(_XOPEN_SOURCE) && (_XOPEN_SOURCE >= 500)
+#  include <time.h>	   /* nanosleep() */
+#endif
+
 /*** for select() call ***/
 #  ifdef __hpux
 #    define XV_FDTYPE (int *)
