@@ -31,7 +31,7 @@
 /* GRR 4th public jumbo F+E patch:  	20070520 */
 /* GRR 5th public jumbo F+E patch:  	200xxxxx (probably mid-2009) */
 /* FLMask 2.1 (modified) patch:		20090820 */
-/* MDA 6th patch: 20220127 */
+/* MDA 6th patch: 			20220127 */
 #ifdef XV_CMAKE_BUILD
 #  define REVDATE   XV_REVDATE
 #  define VERSTR    XV_VERSTR
@@ -167,7 +167,9 @@
 #endif
 
 
-#if defined(__FreeBSD__)
+#if defined(__FreeBSD__) || defined(__OpenBSD__) || defined(__NetBSD__) || \
+    defined(__DragonFly__) || defined(__APPLE__) || defined(__bsdi__) || \
+    defined(__osf__)
 #  include <sys/param.h>
 #endif
 
@@ -203,7 +205,8 @@
 #  ifdef VMS
 #    define ERRSTR(x) strerror(x, vaxc$errno)
 #  else
-#    if defined(__BEOS__) || defined(__linux__) /* or all modern/glibc systems? */
+#    if defined(__BEOS__) || defined(__HAIKU__) || defined(BSD4_4) \
+        defined(_XOPEN_SOURCE) || defined(__NT__) /* That should cover it :) */
 #      define ERRSTR(x) strerror(x)
 #    else
 #      define ERRSTR(x) sys_errlist[x]
@@ -287,7 +290,7 @@
 #    include <limits.h>
 #  endif
 
-#  ifdef __BEOS__
+#  if defined(__BEOS__) || defined(__HAIKU__)
 #    include <socket.h>
 #  endif
 
@@ -413,8 +416,9 @@
 
 
 #ifndef VMS       /* VMS hates multi-line definitions */
-#  if defined(SVR4)  || defined(SYSV) || defined(sco) || \
-      defined(XENIX) || defined(__osf__) || defined(__linux__)
+#  if defined(SVR4)  || defined(SYSV) || defined(BSD4_3) || \
+      defined(XENIX) || defined(_POSIX_C_SOURCE) || defined(__BEOS__) || \
+      defined(__HAIKU__) || defined(__NT__)
 #    undef  USE_GETCWD
 #    define USE_GETCWD          /* use 'getcwd()' instead of 'getwd()' */
 #  endif                        /* >> SECURITY ISSUE << */
@@ -424,9 +428,10 @@
 /* GRR 20040430:  This is new and still not fully deployed.  No doubt there
  *                are other systems that have mkstemp() (SUSv3); we can add
  *                them later. */
+/* MAL 20240808:  I should have covered all bases here. */
 #ifndef VMS       /* VMS hates multi-line definitions */
-#  if defined(__linux__) || defined(__OpenBSD__) || defined(__NetBSD__) || \
-      defined(__bsdi__)
+#  if defined(BSD4_3) || defined(_XOPEN_SOURCE_EXTENDED) || defined(__NT__) || \
+      defined(__BEOS__) || defined(__HAIKU__)
 #    ifndef USE_MKSTEMP
 #      define USE_MKSTEMP       /* use 'mkstemp()' instead of 'mktemp()' */
 #    endif                      /* >> SECURITY ISSUE << */
@@ -439,7 +444,8 @@
  *                times() exists and clock_t is a long int (latter matters
  *                only if/when clocks wrap, which for Linux is multiples of
  *                497.11 days since the last reboot). */
-#if defined(__linux__)
+/* MAL 20240808:  This should actually work on any POSIX machine. */
+#if defined(_POSIX_C_SOURCE)
 #  define USE_TICKS             /* use times()/Timer(), not time()/sleep() */
 #  include <limits.h>           /* LONG_MAX (really want CLOCK_T_MAX) */
 #  include <sys/times.h>        /* times() */
@@ -448,7 +454,8 @@
 #  endif
 #endif
 
-#if (defined(SYSV) || defined(SVR4) || defined(linux)) && !defined(USE_GETCWD)
+#if (defined(SYSV) || defined(SVR4) || \ 
+     defined(__linux__)) && !defined(USE_GETCWD)
 #  define USE_GETCWD
 #endif
 
