@@ -2965,8 +2965,8 @@ static int doPadBggen(char *str, int wide, int high, int opaque, int omode)
 
   /* returns 0 on error, 1 if successful */
 
-  if (xv_strstr(str, "-h") || xv_strstr(str, "-w") || xv_strstr(str,"-g") ||
-      xv_strstr(str, ">")) {
+  if (strstr(str, "-h") || strstr(str, "-w") || strstr(str,"-g") ||
+      strstr(str, ">")) {
     ErrPopUp(
 	 "Error:  No redirection or '-h', '-w' or '-g' options are allowed.",
 	     "\nOk");

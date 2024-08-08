@@ -28,7 +28,7 @@
  *     void   xvbcopy(src, dst, length) - DEAD
  *     int    xvbcmp (s1,  s2,  length) - DEAD
  *     void   xvbzero(s, length) - DEAD
- *     char  *xv_strstr(s1, s2)
+ *     char  *xv_strstr(s1, s2) - DEAD
  *     FILE  *xv_fopen(str, str)
  *     void   xv_mktemp(str)
  *     void   Timer(milliseconds)
@@ -1098,9 +1098,18 @@ void xv_getwd(char *buf, size_t buflen)
 
 
 
-/***************************************************/
-
-/*
+/***************************************************
+ *******************************************************************
+ * This code predates 4.3BSD-Reno!                                 *
+ *							           *
+ * This is a redundant, old, and probably dangerous implementation *
+ * of a standard function.					   *
+ *							           *
+ * Interesting speciman. Fossilized.			           *
+ *							           *
+ *                                                       MAL 2024  *
+ *******************************************************************
+ *
  *	Source code for the "strstr" library routine.
  *
  * Copyright 1988 Regents of the University of California
@@ -1111,18 +1120,18 @@ void xv_getwd(char *buf, size_t buflen)
  * makes no representations about the suitability of this
  * software for any purpose.  It is provided "as is" without
  * express or implied warranty.
- */
+ * 
 
-char *xv_strstr(const char *string /* String to search. */,
-	const char *substring /* Substring to try to find in string. */)
+char *xv_strstr(const char *string * String to search. *,
+	const char *substring * Substring to try to find in string. *)
 {
   const char *a;
   const char *b;
 
-  /* First scan quickly through the two strings looking for a
+   * First scan quickly through the two strings looking for a
    * single-character match.  When it's found, then compare the
    * rest of the substring.
-   */
+   *
 
   b = substring;
   if (*b == 0) return (char *) string;
@@ -1142,7 +1151,7 @@ char *xv_strstr(const char *string /* String to search. */,
 
 
 
-/***************************************************/
+***************************************************/
 
 /***************************************************/
 FILE *xv_fopen(const char *fname, const char *mode)

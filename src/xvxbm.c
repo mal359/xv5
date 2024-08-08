@@ -62,7 +62,7 @@ int LoadXBM(char *fname, PICINFO *pinfo)
 
     if (strncmp(line,"#define",    (size_t) 7)==0 &&
 	sscanf(line,"#define %s %d", name, &w)==2 &&
-	xv_strstr(name, "_width") != NULL) break;
+	strstr(name, "_width") != NULL) break;
   }
 
 
@@ -73,7 +73,7 @@ int LoadXBM(char *fname, PICINFO *pinfo)
 
     if (strncmp(line,"#define",    (size_t) 7)==0 &&
 	sscanf(line,"#define %s %d", name, &h)==2 &&
-	xv_strstr(name, "_height") != NULL) break;
+	strstr(name, "_height") != NULL) break;
   }
 
 

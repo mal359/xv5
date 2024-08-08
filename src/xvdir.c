@@ -1079,9 +1079,9 @@ void LoadCurrentDirectory(void)
 	 the high cost of the VAX C implementation of the stat function.
 	 Suggested by Kevin Oberman (OBERMAN@icdc.llnl.gov) */
 
-      if (xv_strstr (fnames[i]+1, ".DIR") != NULL) fnames[i][0] = C_DIR;
-      if (xv_strstr (fnames[i]+1, ".EXE") != NULL) fnames[i][0] = C_EXE;
-      if (xv_strstr (fnames[i]+1, ".OBJ") != NULL) fnames[i][0] = C_BLK;
+      if (strstr (fnames[i]+1, ".DIR") != NULL) fnames[i][0] = C_DIR;
+      if (strstr (fnames[i]+1, ".EXE") != NULL) fnames[i][0] = C_EXE;
+      if (strstr (fnames[i]+1, ".OBJ") != NULL) fnames[i][0] = C_BLK;
 #else
       if (!nostat && (stat(fnames[i]+1, &st)==0)) {
 	mode  = st.st_mode & 0777;     /* rwx modes */
@@ -2191,7 +2191,7 @@ static int FNameCdable(void)
       char *dirext;
       dirext = rindex ( newpath, '/' );
       if ( dirext == NULL ) dirext = newpath; else dirext++;
-      dirext = xv_strstr ( dirext, "." );
+      dirext = strstr ( dirext, "." );
       *dirext = '\0';
 #endif
 

@@ -452,7 +452,7 @@ int LoadPDS(char *fname, PICINFO *pinfo)
 	lastwasinote=FALSE; continue;
       } else if (sscanf(scanbuff," SPACECRAFT_NAME = " S(COMMENTSIZE) " " S(1023),
 			spacecraft,garbage) == 2 ) {
-	const char *tmp = xv_strstr(scanbuff, spacecraft) + strlen(spacecraft);
+	const char *tmp = strstr(scanbuff, spacecraft) + strlen(spacecraft);
 	strncat(spacecraft, tmp, COMMENTSIZE - strlen(spacecraft));
 	lastwasinote=FALSE;  continue;
       } else if (sscanf(scanbuff, " SPACECRAFT_NAME = " S(COMMENTSIZE), spacecraft) == 1) {
@@ -581,7 +581,7 @@ int LoadPDS(char *fname, PICINFO *pinfo)
     --labelsofar;
 
     if (fread(scanbuff, (size_t) (labelsize-labelsofar),(size_t) 1,zf) == 1) {
-      if ((tmp = (char *) xv_strstr(scanbuff," NL=")) == NULL) {
+      if ((tmp = (char *) strstr(scanbuff," NL=")) == NULL) {
 	SetISTR(ISTR_WARNING,"LoadPDS: bad NL in VICAR\n");
 	returnp=TRUE;
       }
@@ -591,7 +591,7 @@ int LoadPDS(char *fname, PICINFO *pinfo)
 	returnp=TRUE;
       }
 
-      if ((tmp = (char *) xv_strstr(scanbuff, " NS=")) == NULL) {
+      if ((tmp = (char *) strstr(scanbuff, " NS=")) == NULL) {
 	SetISTR(ISTR_WARNING,"LoadPDS: bad NS in VICAR\n");
 	returnp=TRUE;
       }
@@ -601,19 +601,19 @@ int LoadPDS(char *fname, PICINFO *pinfo)
 	returnp=TRUE;
       }
 
-      if ( (tmp=(char *) xv_strstr(scanbuff, " NBB=")))
+      if ( (tmp=(char *) strstr(scanbuff, " NBB=")))
         if (sscanf(tmp, " NBB = %d",&lpsize) != 1) {
 	  SetISTR(ISTR_WARNING,"LoadPDS: bad scan NBB in VICAR\n");
 	  returnp=TRUE;
         }
 
-      vaxbyte = (xv_strstr(scanbuff, " INTFMT='HIGH'") == NULL);
+      vaxbyte = (strstr(scanbuff, " INTFMT='HIGH'") == NULL);
 
-      if (xv_strstr(scanbuff, " FORMAT='BYTE'"))
+      if (strstr(scanbuff, " FORMAT='BYTE'"))
         samplesize = 8;
-      else if (xv_strstr(scanbuff, " FORMAT='HALF'"))
+      else if (strstr(scanbuff, " FORMAT='HALF'"))
         samplesize = 16;
-      else if (xv_strstr(scanbuff, " FORMAT=")) {
+      else if (strstr(scanbuff, " FORMAT=")) {
 	SetISTR(ISTR_WARNING,"LoadPDS: unsupported FORMAT in VICAR\n");
 	returnp=TRUE;
       } else {
