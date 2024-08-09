@@ -52,7 +52,7 @@ if(XV_ENABLE_XRANDR)
 endif()
 
 set(xv_sources
-	vprintf.c
+#	vprintf.c
 	xv24to8.c
 	xvalg.c
 	xvbmp.c
