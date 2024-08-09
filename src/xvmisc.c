@@ -773,6 +773,9 @@ static void set_cursors(Cursor mainc, Cursor otherc)
 /***************************************************/
 const char *BaseName(const char *fname)
 {
+#ifdef USE_BASENAME
+  return basename((char *)fname);
+#else
   const char *basname;
 
   /* given a complete path name ('/foo/bar/weenie.gif'), returns just the
@@ -781,6 +784,7 @@ const char *BaseName(const char *fname)
 
   basname = (const char *) rindex(fname, '/');
   return basname? basname+1 : fname;
+#endif
 }
 
 

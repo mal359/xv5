@@ -428,11 +428,12 @@
 /* GRR 20040430:  This is new and still not fully deployed.  No doubt there
  *                are other systems that have mkstemp() (SUSv3); we can add
  *                them later. */
-/* MAL 20240809:  I should have covered all bases here. */
+/* MAL 20240808:  I should have covered all bases here. */
 #ifndef VMS       /* VMS hates multi-line definitions */
-#  if defined(BSD4_3) || defined(_XOPEN_SOURCE_EXTENDED) || \
-      defined(_XPG4_2) || defined(__NT__) || defined(__BEOS__) || \
-      defined(__HAIKU__) || defined(__linux__)
+#  if defined(BSD4_3) || defined(_SCO_ODS_30) || \
+      defined(_XOPEN_SOURCE_EXTENDED) || defined(_XPG4_2) || \
+      defined(__NT__) || defined(__BEOS__) || defined(__HAIKU__) || \
+      defined(_GNU_SOURCE) || defined(__BIONIC__) || defined(__linux__)
 #    ifndef USE_MKSTEMP
 #      define USE_MKSTEMP       /* use 'mkstemp()' instead of 'mktemp()' */
 #    endif                      /* >> SECURITY ISSUE << */
@@ -470,6 +471,15 @@
 #  define strstr(A,B) pds_strstr((A),(B))
 #  undef S_IFIFO
 #endif /* !mips_bsd */
+
+#if defined(BSD4_4) || defined(_SCO_ODS_30) || \
+    defined(_XOPEN_SOURCE_EXTENDED) || defined(_XPG4_2) || \
+    defined(_GNU_SOURCE) || defined(__BIONIC__) || defined(__linux__) || \
+    defined(__HAIKU__)
+#  define USE_BASENAME
+#  include <libgen.h> /* POSIX basename() */
+#endif 
+
 
 /*****************************/
 /* END OF CONFIGURATION INFO */
