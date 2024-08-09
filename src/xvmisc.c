@@ -487,7 +487,7 @@ void FatalError (const char *identifier)
 }
 
 
-int InSignal;
+extern int InSignal;
 /***********************************/
 void Quit(int i)
 {

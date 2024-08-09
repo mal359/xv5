@@ -431,7 +431,7 @@
 /* MAL 20240808:  I should have covered all bases here. */
 #ifndef VMS       /* VMS hates multi-line definitions */
 #  if defined(BSD4_3) || defined(_XOPEN_SOURCE_EXTENDED) || defined(__NT__) || \
-      defined(__BEOS__) || defined(__HAIKU__)
+      defined(__BEOS__) || defined(__HAIKU__) || defined(__linux__)
 #    ifndef USE_MKSTEMP
 #      define USE_MKSTEMP       /* use 'mkstemp()' instead of 'mktemp()' */
 #    endif                      /* >> SECURITY ISSUE << */
@@ -454,7 +454,7 @@
 #  endif
 #endif
 
-#if (defined(SYSV) || defined(SVR4) || \ 
+#if (defined(SYSV) || defined(SVR4) || \
      defined(__linux__)) && !defined(USE_GETCWD)
 #  define USE_GETCWD
 #endif

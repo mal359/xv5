@@ -71,7 +71,7 @@
 
 #if defined(hpux) || defined(SVR4) || \
     defined(__386BSD__) || defined(__FreeBSD__) || defined(__NetBSD__) || \
-    defined(__linux__)
+    defined(__OpenBSD__) || defined(__DragonFly__)|| defined(__linux__)
     /*
      I want to use BSD macro for checking if this OS is *BSD or not,
      but the macro is defined in <sys/parm.h>, which I don't know all
@@ -143,7 +143,7 @@
  * change 'undef' to 'define' in the following line:
  */
 
-#undef USEOLDPIC
+#define USEOLDPIC
 
 
 /***************************************************************************
@@ -174,7 +174,7 @@
  */
 
 #define USE_LIBJPEG_FOR_TIFF_YCbCr_RGB_CONVERSION
-#undef LIBTIFF_HAS_OLDJPEG_SUPPORT
+#define LIBTIFF_HAS_OLDJPEG_SUPPORT
 
 
 /***************************************************************************
@@ -189,13 +189,13 @@
 
 #define HAVE_PCD	/* believed to be reasonably safe */
 
-#undef HAVE_MAG		/* probable security issues */
-#undef HAVE_MAKI	/* probable security issues */
-#undef HAVE_PI		/* probable security issues */
-#undef HAVE_PIC		/* probable security issues */
-#undef HAVE_PIC2	/* probable security issues */
+#define HAVE_MAG	/* probable security issues */
+#define HAVE_MAKI	/* probable security issues */
+#define HAVE_PI		/* probable security issues */
+#define HAVE_PIC	/* probable security issues */
+#define HAVE_PIC2	/* probable security issues */
 
-#undef HAVE_HIPS	/* probable security issues */
+#define HAVE_HIPS	/* probable security issues */
 
 
 /***************************************************************************
@@ -206,7 +206,7 @@
  * in the following line.
  */
 
-#undef MACBINARY
+#define MACBINARY
 
 
 /***************************************************************************
@@ -222,7 +222,7 @@
  * is read-only), change 'undef' to 'define' the VIRTUAL_TD line.
  */
 
-#undef AUTO_EXPAND
+#define AUTO_EXPAND
 #undef VIRTUAL_TD
 
 #if defined(VIRTUAL_TD) && !defined(AUTO_EXPAND)
@@ -237,7 +237,7 @@
  * Schnauzer, change 'undef' to 'define' in the following line.
  */
 
-#undef VS_ADJUST
+#define VS_ADJUST
 
 
 /***************************************************************************
@@ -248,7 +248,7 @@
  * following line.
  */
 
-#undef VS_RESCMAP
+#define VS_RESCMAP
 
 
 /***************************************************************************
@@ -377,7 +377,7 @@
  * 'undef' to 'define' in the following line.
  */
 
-#undef TV_MULTILINGUAL
+#define TV_MULTILINGUAL
 
 #define TV_DEFAULT_CODESET TV_EUC_JAPAN
 
