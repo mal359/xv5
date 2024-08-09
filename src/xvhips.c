@@ -26,7 +26,9 @@
 #include "xvhips.h"
 #undef Boolean
 
-#include <alloca.h>
+#ifndef alloca
+#  include <alloca.h> /* "not in POSIX or SUSv3" according to Linux man page */
+#endif                /* ...but required for Sun C compiler (alloca = macro) */
 
 #define LINES 100
 #define LINELENGTH 132
