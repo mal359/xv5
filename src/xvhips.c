@@ -60,9 +60,7 @@ static int lalloc = 0;
 
 
 
-static int fread_header(fd, hd)
-  int fd;
-  struct header *hd;
+static int fread_header(int fd, struct header *hd)
 {
   int lineno, len, i;
   char *s;
@@ -134,10 +132,7 @@ static int fread_header(fd, hd)
 
 
 
-static char *xvh_getline(fd,s,l)
-  int fd;
-  char **s;
-  int *l;
+static char *xvh_getline(int fd, char **s, int *l)
 {
   int i, m;
   char c,*s1,*s2;
@@ -169,8 +164,7 @@ static char *xvh_getline(fd,s,l)
 
 
 
-static int dfscanf(fd)
-  int fd;
+static int dfscanf(int fd)
 {
   int i;
 
@@ -182,9 +176,7 @@ static int dfscanf(fd)
 
 
 /*******************************************/
-int LoadHIPS(fname,pinfo)
-     char *fname;
-     PICINFO * pinfo;
+int LoadHIPS(char *fname, PICINFO *pinfo)
 /*******************************************/
 {
   FILE  *fp;
@@ -264,8 +256,7 @@ static void make_grayscale(unsigned char * r, unsigned char * g,
 
 
 
-static float hls_value (n1, n2, hue)
-  float n1,n2,hue;
+static float hls_value (float n1, float n2, float hue)
 {
 	if (hue>360.0)
 	  hue-=360.0 ;
@@ -284,9 +275,7 @@ static float hls_value (n1, n2, hue)
 
 
 
-static void hls_to_rgb(h,l,s,  r,g,b)
-  float h, l, s;
-  float *r, *g, *b;
+static void hls_to_rgb(float h, float l, float s, float *r, float *g, float *b)
 {
 	static float m1, m2 ;
 
