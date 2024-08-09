@@ -34,14 +34,18 @@
 static int   fread_header(int fd, struct header *hd);
 static char  *xvh_getline(int fd, char **s, int *l);
 static int   dfscanf(int fd);
-static void  make_grayscale(char *r, char *g, char *b);
+static void  make_grayscale(unsigned char *r, unsigned char *g, 
+			    unsigned char *b);
 static float hls_value (float n1, float n2, float hue);
 static void  hls_to_rgb(float h, float l, float s,
                         float *r, float *g, float *b);
-static void  make_huescale(char *r, char *g, char *b);
-static void  make_heatscale(char *r, char *g, char *b);
-static int   load_colourmap(char *filestem, int max_colours,
-                            char *r, char *g, char *b);
+static void  make_huescale(unsigned char *r, unsigned char *g, 
+			   unsigned char *b);
+static void  make_heatscale(unsigned char *r, unsigned char *g, 
+			    unsigned char *b);
+static int   load_colourmap(const char *filestem, int max_colours,
+                            unsigned char *r, unsigned char *g, 
+			    unsigned char *b);
 
 /************************************************************************
  *
@@ -135,8 +139,10 @@ static char *xvh_getline(fd,s,l)
   char **s;
   int *l;
 {
-  int i,m;
+  int i, m;
   char c,*s1,*s2;
+  
+  XV_UNUSED(i);
 
   i = 0;
   s1 = *s;
@@ -183,7 +189,7 @@ int LoadHIPS(fname,pinfo)
 {
   FILE  *fp;
   struct header h;
-  char * pic;
+  byte * pic;
 
   /* open the stream, if necesary */
   fp=fopen(fname,"r");
@@ -234,9 +240,11 @@ int LoadHIPS(fname,pinfo)
       make_heatscale(pinfo->r, pinfo->g, pinfo->b);
     else if (strcmp(cmapname, "hues") == 0)
       make_huescale(pinfo->r, pinfo->g, pinfo->b);
-    else if (!cmapname[0] || !load_colourmap(cmapname, 256, pinfo->r, pinfo->g, pinfo->b))
+    else if (!cmapname[0] || !load_colourmap(cmapname, 256, pinfo->r, pinfo->g, 
+    	     pinfo->b))
       make_grayscale(pinfo->r, pinfo->g, pinfo->b);
-    sprintf(pinfo->fullInfo, "HIPS file (%d x %d), Colormap = [%s]", h.cols, h.rows, cmapname);
+    snprintf(pinfo->fullInfo, sizeof(pinfo->fullInfo), 
+    	     "HIPS file (%d x %d), Colormap = [%s]", h.cols, h.rows, cmapname);
   }
 
   return 1;
@@ -244,7 +252,8 @@ int LoadHIPS(fname,pinfo)
 
 
 
-static void make_grayscale(char * r, char * g, char * b)
+static void make_grayscale(unsigned char * r, unsigned char * g, 
+			   unsigned char * b)
 {
   int i;
   /* default grayscale colors */
@@ -297,7 +306,8 @@ static void hls_to_rgb(h,l,s,  r,g,b)
 
 
 
-static void make_huescale(char * r, char * g, char * b)
+static void make_huescale(unsigned char * r, unsigned char * g, 
+			  unsigned char * b)
 {
   int j;
   r[0] = g[0] = b[0] = 0;
@@ -313,7 +323,8 @@ static void make_huescale(char * r, char * g, char * b)
 
 
 
-static void make_heatscale(char * r, char * g, char * b)
+static void make_heatscale(unsigned char * r, unsigned char * g, 
+			   unsigned char * b)
 {
   int j;
   r[0] = g[0] = b[0] = 0;
@@ -338,8 +349,8 @@ static void make_heatscale(char * r, char * g, char * b)
 
 
 
-static int load_colourmap(char *filestem, int max_colours,
-                          char *r, char *g, char *b)
+static int load_colourmap(const char *filestem, int max_colours,
+                          unsigned char *r, unsigned char *g, unsigned char *b)
 {
   FILE * fp;
   int numread=0;

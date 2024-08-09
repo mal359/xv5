@@ -412,7 +412,8 @@ int TextView(const char *fname)
 
   fp = fopen(rfname, "r");
   if (!fp) {
-    sprintf(buf,"Couldn't open '%s':  %s", rfname, ERRSTR(errno));
+    snprintf(buf, sizeof(buf), "Couldn't open '%s':  %s", rfname, 
+    	     ERRSTR(errno));
     ErrPopUp(buf,"\nOh well");
     return FALSE;
   }
@@ -423,7 +424,8 @@ int TextView(const char *fname)
   fseek(fp, 0L, 0);
 
   if (!textlen) {
-    sprintf(buf, "File '%s' contains no data.  (Zero length file.)", rfname);
+    snprintf(buf, sizeof(buf), 
+    	     "File '%s' contains no data.  (Zero length file.)", rfname);
     ErrPopUp(buf, "\nOk");
     fclose(fp);
     return FALSE;
@@ -431,16 +433,17 @@ int TextView(const char *fname)
 
   text = (char *) malloc((size_t) textlen + 1);
   if (!text) {
-    sprintf(buf, "Couldn't malloc %ld bytes to read file '%s'",
-	    textlen, rfname);
+    snprintf(buf, sizeof(buf), "Couldn't malloc %ld bytes to read file '%s'",
+	     textlen, rfname);
     ErrPopUp(buf, "\nSo what!");
     fclose(fp);
     return FALSE;
   }
 
   if (fread(text, (size_t) 1, (size_t) textlen, fp) != textlen) {
-    sprintf(buf, "Warning:  Couldn't read all of '%s'.  Possibly truncated.",
-	    rfname);
+    snprintf(buf, sizeof(buf), 
+             "Warning:  Couldn't read all of '%s'.  Possibly truncated.",
+	     rfname);
     ErrPopUp(buf, "\nHmm...");
   }
 #ifdef TV_MULTILINGUAL

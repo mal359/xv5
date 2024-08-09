@@ -91,7 +91,9 @@ struct header {
 #endif
 
 typedef	long	Boolean;
-extern char *strsave(), *memalloc();
+extern char *strsave(const char *str);
+extern char *memalloc(size_t size);
+
 
 /*
  * image and pyramid type declarations for the pyramid routines.
@@ -130,10 +132,10 @@ typedef struct {
 
 /* function definitions */
 
-float		**_read_fimgstr();
-int		**_read_iimgstr();
-float		**_alloc_fimage();
-int		**_alloc_iimage();
+float		**_read_fimgstr(void);
+int		**_read_iimgstr(void);
+float		**_alloc_fimage(void);
+int		**_alloc_iimage(void);
 
 /* image macros */
 

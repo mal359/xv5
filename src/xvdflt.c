@@ -41,6 +41,13 @@ void LoadDfltPic(PICINFO *pinfo)
 
 #ifdef USEOLDPIC
 
+  XV_UNUSED(str);
+  XV_UNUSED(dfltpic);
+  XV_UNUSED(i);
+  XV_UNUSED(j);
+  XV_UNUSED(k);
+  XV_UNUSED(xdpline);
+  XV_UNUSED(nbytes);
   loadOldDfltPic(pinfo);
 
 #else /* !USEOLDPIC */
