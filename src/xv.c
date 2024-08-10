@@ -940,12 +940,20 @@ int main(int argc, char **argv)
     int i, j;
     char *tmp;
 
+#ifdef HAS_ARC4RANDOM
+    for (i = numnames; i > 1; i--) {
+      j = arc4random_uniform(i);
+      tmp = namelist[i-1];
+      namelist[i-1] = namelist[j];
+      namelist[j] = tmp;
+#else
     srandom((int)time((time_t *)0));
     for (i = numnames; i > 1; i--) {
       j = random() % i;
       tmp = namelist[i-1];
       namelist[i-1] = namelist[j];
       namelist[j] = tmp;
+#endif
     }
   }
 

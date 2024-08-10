@@ -189,16 +189,24 @@
 
 #ifndef VMS
 #  include <errno.h>
-#  if !defined(__NetBSD__) && !defined(__FreeBSD__)
-#    if !(defined(__GLIBC__) && __GLIBC__ >= 2) && !defined(__OpenBSD__)
-       extern int   errno;         /* SHOULD be in errno.h, but often isn't */
-#      ifndef XV_HAVE_SYSERRLISTDECL
-         extern char *sys_errlist[]; /* this too... */
+#  if !defined(__NetBSD__) && !defined(__FreeBSD__) && \
+      !defined(__OpenBSD__) && !defined(__DragonFly__) && \
+      !defined(__APPLE__) && !defined(__illumos__) && !defined(_AIX) && \
+      !defined(__hpux) && !defined(__ANDROID__) && !defined(__HAIKU__)
+#    if !defined(__BIONIC__) && !defined(__UCLIBC__) && \
+        !(defined(__linux__) && !defined(__GLIBC__)) /* ugly musl hack */
+#      if !(defined(_POSIX_C_SOURCE) && _POSIX_C_SOURCE >= 199506L) && \
+          !(defined(_XOPEN_SOURCE) && _XOPEN_SOURCE >= 500)
+#        if !(defined(__GLIBC__) && __GLIBC__ >= 2)
+           extern int   errno;         /* SHOULD be in errno.h, but often isn't */
+#          ifndef XV_HAVE_SYSERRLISTDECL
+             extern char *sys_errlist[]; /* this too... */
+#          endif
+#        endif
 #      endif
 #    endif
 #  endif
 #endif
-
 
 /* not everyone has the strerror() function, or so I'm told */
 #if !defined(XV_HAVE_STRERROR)
@@ -404,7 +412,18 @@
 #define XV_MAXQUOTEDPATHLEN	(3 * MAXPATHLEN + 10)
 #define XV_SINGLE_QUOTE		'\''
 
-#ifdef SVR4
+#if defined(__FreeBSD__) || defined(__OpenBSD__) || defined(__NetBSD__) || \
+    defined(__DragonFly__) || defined(__APPLE__) || defined(__CYGWIN__) || \
+    defined(__SunOS_5_11) || defined(__illumos__) || defined(__HAIKU__) || \
+    defined(HAVE_LIBBSD) || defined(__BIONIC__) || defined(__UCLIBC__) || \
+    (defined(__GLIBC__) && (__GLIBC__ >= 2) && (__GLIBC_MINOR__ >= 36)) || \
+    (defined(__linux__) && !defined(__GLIBC__)) /* ugly musl hack */
+#  define HAS_ARC4RANDOM
+#else
+#  define NO_ARC4RANDOM
+#endif
+
+#if defined(SVR4) && defined(NO_ARC4RANDOM)
 #  define random lrand48
 #  define srandom srand48
 #else

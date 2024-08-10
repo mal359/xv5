@@ -384,3 +384,12 @@
 #ifdef TV_MULTILINGUAL
 #  undef TV_L10N
 #endif
+
+/***************************************************************************
+ * libbsd Support
+ *
+ * if you want to use libbsd's arc4random, change 'undef' to 'define' in the
+ * following line.
+ */
+
+#undef HAVE_LIBBSD

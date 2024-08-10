@@ -1382,7 +1382,9 @@ static void doSpread(byte *pic24, int w, int h, byte *results, int selx, int sel
   time_t nowT;
 
   time(&nowT);
+#ifndef HAS_ARC4RANDOM
   srandom((unsigned int) nowT);
+#endif
 
   printUTime("start of spread");
 
@@ -1398,7 +1400,11 @@ static void doSpread(byte *pic24, int w, int h, byte *results, int selx, int sel
 
 	minx = x - d;	if (minx < selx)       minx = selx;
 	maxx = x + d;	if (maxx >= selx+selw) maxx = selx+selw-1;
+#ifdef HAS_ARC4RANDOM
+	x1 = minx + arc4random_uniform((maxx - minx) + 1);
+#else
 	x1 = minx + labs(random()) % ((maxx - minx) + 1);
+#endif
 
 	miny = y - d;	if (miny < sely)       miny = sely;
 	maxy = y + d;	if (maxy >= sely+selh) maxy = sely+selh-1;
@@ -1407,7 +1413,11 @@ static void doSpread(byte *pic24, int w, int h, byte *results, int selx, int sel
 	if (y - miny > rdist) miny = (y-rdist);
 	if (maxy - y > rdist) maxy = (y+rdist);
 
+#ifdef HAS_ARC4RANDOM
+	y1 = miny + arc4random_uniform((maxy - miny) + 1);
+#else
 	y1 = miny + labs(random()) % ((maxy - miny) + 1);
+#endif
       }
 
       else {
@@ -1415,11 +1425,19 @@ static void doSpread(byte *pic24, int w, int h, byte *results, int selx, int sel
 
 	minx = x - pixX;  if (minx < selx)       minx = selx;
 	maxx = x + pixX;  if (maxx >= selx+selw) maxx = selx+selw-1;
+#ifdef HAS_ARC4RANDOM
+	x1 = minx + arc4random_uniform((maxx - minx) + 1);
+#else
 	x1 = minx + labs(random()) % ((maxx - minx) + 1);
+#endif
 
 	miny = y - pixY;  if (miny < sely)       miny = sely;
 	maxy = y + pixY;  if (maxy >= sely+selh) maxy = sely+selh-1;
+#ifdef HAS_ARC4RANDOM
+	y1 = miny + arc4random_uniform((maxy - miny) + 1);
+#else
 	y1 = miny + labs(random()) % ((maxy - miny) + 1);
+#endif
       }
 
       if (PTINRECT(x1,y1, selx,sely,selw,selh)) {  /* should always be true */
