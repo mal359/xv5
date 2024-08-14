@@ -378,7 +378,7 @@ int TextView(const char *fname)
 
   int   filetype;
   long  textlen;
-  char *text, buf[512], title[128], rfname[MAXPATHLEN+1];
+  char *text, buf[MAXPATHLEN+128], title[MAXPATHLEN+128], rfname[MAXPATHLEN+1];
   FILE *fp;
   char filename[MAXPATHLEN+1];
 
@@ -452,7 +452,7 @@ int TextView(const char *fname)
 
   fclose(fp);
 
-  sprintf(title, "File: '%s'", BaseName(fname));
+  snprintf(title, sizeof(title), "File: '%s'", BaseName(fname));
   OpenTextView(text, (int) textlen, title, 1);
 
   /* note:  text gets freed when window gets closed */
