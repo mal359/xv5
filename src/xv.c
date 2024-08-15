@@ -2604,7 +2604,7 @@ ms_auto_no:
     else
 #endif
       i = TextView(filename);
-    SetISTR(ISTR_INFO,"'%s' not in a recognized format.", basefname);
+/* SetISTR(ISTR_INFO,"'%s' not in a recognized format.", basefname); annoying */
     /* Warning();  */
     if (i) goto SHOWN_AS_TEXT;
     else   goto FAILED;
